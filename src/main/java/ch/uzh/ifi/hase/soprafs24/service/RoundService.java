@@ -17,6 +17,8 @@ import java.net.http.HttpResponse;
 import java.util.Optional;
 import java.util.UUID;
 
+import static ch.uzh.ifi.hase.soprafs24.service.EnvReader.loadEnv;
+
 @Service
 public class RoundService {
     @Autowired
@@ -43,9 +45,12 @@ public class RoundService {
     public String getRandomPicture(Round round) {
         try {
             // Construct URL
+            loadEnv(".env");
             String apiUrl = "https://api.unsplash.com/photos/random";
             String query = "Switzerland+landscape+cityscape";
-            String clientId = System.getenv("CLIENT_ID"); // Replace with your Unsplash access key
+
+            String clientId = System.getProperty("CLIENT_ID");
+            System.out.println("Client ID: " + clientId);
 
             String urlString = apiUrl + "?query=" + query;
 
